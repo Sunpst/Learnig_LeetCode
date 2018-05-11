@@ -1,0 +1,49 @@
+第一种的方法时间限制。循环太耗时间，不能通过平台的测试。
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> out;
+        if(nums.size() == 0) 
+            return out;
+        int low = 0,high = nums.size()-1;  
+        int sum = 0;
+        while(low < high){
+            sum = nums[low]+nums[high];
+            if(sum < target)
+                low++;
+            else if(sum > target)
+                high --;
+            else{
+                 out.push_back(low);
+                 out.push_back(high);
+            }
+               
+        }
+        return out;
+    }
+};
+
+第二种方法，先遍历一遍数组，建立map数组，然后在遍历一遍，开始查找是否存在这样的数值。
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> m;
+        vector<int> out;
+        if(nums.size() == 0) 
+            return out;
+       for(int i = 0;i < nums.size();i++)
+           m[nums[i]] = i;
+       
+        for(int i = 0;i < nums.size();i++){
+            int t = target - nums[i];
+//count（t）计算是否存在这样值，m[t]得到这个值得下边，并判断不是i
+            if(m.count(t) && m[t] != i){
+                out.push_back(i);
+                out.push_back(m[t]);
+                break;
+            }
+        }
+        return out;
+    }
+};
