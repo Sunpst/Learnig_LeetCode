@@ -1,0 +1,30 @@
+
+题目：You are given two non-empty linked lists representing two non-negative integers.
+The digits are stored in reverse order and each of their nodes contain a single digit.
+Add the two numbers and return it as a linked list.
+
+算法的过程：因为数据是反着存的，分别依次取两个链表的数据相加，处理进位问题，然后依次添加节点
+节点的值取sum%10，最后判断进位位是否为0，如果不是为0，则需要在添加一个进位位的节点，节点的
+取值是carry。
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *res = new ListNode(-1);
+        ListNode *cur = res;
+        int carry = 0;
+        while(l1 || l2){
+            int n1 = l1 ? l1->val : 0;
+            int n2 = l2 ? l2->val : 0;
+            int sum = n1 + n2 + carry;
+            carry = sum / 10;
+            cur->next = new ListNode(sum % 10);
+            cur = cur->next;
+            if(l1) l1 = l1->next;
+            if(l2) l2 = l2->next;
+        }
+        if(carry) cur->next = new ListNode(1);
+        return res->next;
+        
+    }
+};
