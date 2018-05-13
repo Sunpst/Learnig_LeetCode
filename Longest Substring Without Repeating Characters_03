@@ -1,0 +1,32 @@
+题目：
+Given a string, find the length of the longest substring without repeating characters.
+
+Examples:
+
+Given "abcabcbb", the answer is "abc", which the length is 3.
+
+Given "bbbbb", the answer is "b", with the length of 1.
+
+Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is
+a subsequence and not a substring.
+
+
+
+解答：
+使用哈希表的思想，建立一个256位大小的整型数组来代替哈希表（原因不知，博友Grandyang给出的原因是是ASCII表共能表示256个字符，所以可以记录所有字符。）
+哈希表中，在没有遇到重复字符之前，将当前字符对应的值赋为其在给定串s中的下标；当遇到重复字符时，因，该重复字符对应的值（即该字符的下标）大于上一串没有
+重复字符的起点下标，所以更新新子串的起点（深刻理解这句话），并记下此时的maxLen值。
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> m(256,-1);
+        int maxLen = 0,start = -1;
+        for(int i = 0;i < s.size();i++){
+            if(m[s[i]]>start)
+                start = m[s[i]];
+            m[s[i]] = i;
+            maxLen = max(maxLen,i - start);
+        }
+        return maxLen;
+    }
+};
